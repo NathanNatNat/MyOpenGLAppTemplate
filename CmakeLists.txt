@@ -1,0 +1,38 @@
+cmake_minimum_required(VERSION 3.15)
+project(OpenGLAppTemplate)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+# GLAD
+add_subdirectory(external/glad/cmake)
+glad_add_library(glad STATIC API gl:core=4.6)
+
+# GLFW
+set(GLFW_BUILD_EXAMPLES OFF CACHE INTERNAL "Build the GLFW example programs")
+set(GLFW_BUILD_TESTS OFF CACHE INTERNAL "Build the GLFW test programs")
+set(GLFW_BUILD_DOCS OFF CACHE INTERNAL "Build the GLFW documentation")
+set(GLFW_INSTALL OFF CACHE INTERNAL "Generate installation target")
+add_subdirectory(external/glfw)
+include_directories(external/glfw/include)
+
+# ImGui
+set(IMGUI_DIR ${CMAKE_CURRENT_SOURCE_DIR}/external/imgui)
+set(IMGUI_BACKEND_DIR ${IMGUI_DIR}/backends)
+file(GLOB IMGUI_SOURCES
+    ${IMGUI_DIR}/*.cpp
+    ${IMGUI_BACKEND_DIR}/imgui_impl_glfw.cpp
+    ${IMGUI_BACKEND_DIR}/imgui_impl_opengl3.cpp
+)
+file(GLOB IMGUI_HEADERS
+    ${IMGUI_DIR}/*.h
+    ${IMGUI_BACKEND_DIR}/imgui_impl_glfw.h
+    ${IMGUI_BACKEND_DIR}/imgui_impl_opengl3.h
+)
+add_library(imgui STATIC ${IMGUI_SOURCES} ${IMGUI_HEADERS})
+target_include_directories(imgui PUBLIC ${IMGUI_DIR} ${IMGUI_BACKEND_DIR})
+
+# Add executable for the test project
+add_executable(OpenGLAppTemplate main.cpp)
+
+target_link_libraries(OpenGLAppTemplate glfw glad imgui)
