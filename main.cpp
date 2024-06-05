@@ -12,7 +12,7 @@ static void glfw_error_callback(int error, const char* description)
 }
 
 // Is called whenever a key is pressed/released via GLFW
-void key_callback(GLFWwindow *window, int key, int scancode, int action, int mode)
+void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode)
 {
     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
         glfwSetWindowShouldClose(window, GL_TRUE);
@@ -30,14 +30,14 @@ int main()
         return 1;
 
     // Set all the required options for GLFW
-    const char *glsl_version = "#version 460";
+    const char* glsl_version = "#version 460";
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 
     // Create a GLFWwindow object that we can use for GLFW's functions
-    GLFWwindow *window = glfwCreateWindow(WIDTH, HEIGHT, "OpenGLAppTemplate", NULL, NULL);
+    GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "OpenGLAppTemplate", NULL, NULL);
     glfwMakeContextCurrent(window);
     glfwSwapInterval(1); // Enable vsync
     if (window == NULL)
@@ -67,11 +67,12 @@ int main()
     // Setup Dear ImGui context
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
-    ImGuiIO &io = ImGui::GetIO(); (void)io;
-    io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
+    ImGuiIO& io = ImGui::GetIO();
+    (void)io;
+    io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard; // Enable Keyboard Controls
     //io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
-    io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;         // Enable Docking
-    io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;       // Enable Multi-Viewport / Platform Windows
+    io.ConfigFlags |= ImGuiConfigFlags_DockingEnable; // Enable Docking
+    io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable; // Enable Multi-Viewport / Platform Windows
     //io.ConfigViewportsNoAutoMerge = true;
     //io.ConfigViewportsNoTaskBarIcon = true;
 
@@ -81,7 +82,7 @@ int main()
     //ImGui::StyleColorsClassic();
 
     // When viewports are enabled we tweak WindowRounding/WindowBg so platform windows can look identical to regular ones.
-    ImGuiStyle &style = ImGui::GetStyle();
+    ImGuiStyle& style = ImGui::GetStyle();
     if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
     {
         style.WindowRounding = 0.0f;
@@ -121,12 +122,22 @@ int main()
             }
             if (ImGui::BeginMenu("Edit"))
             {
-                if (ImGui::MenuItem("Undo", "CTRL+Z")) {}
-                if (ImGui::MenuItem("Redo", "CTRL+Y", false, false)) {}  // Disabled item
+                if (ImGui::MenuItem("Undo", "CTRL+Z"))
+                {
+                }
+                if (ImGui::MenuItem("Redo", "CTRL+Y", false, false))
+                {
+                } // Disabled item
                 ImGui::Separator();
-                if (ImGui::MenuItem("Cut", "CTRL+X")) {}
-                if (ImGui::MenuItem("Copy", "CTRL+C")) {}
-                if (ImGui::MenuItem("Paste", "CTRL+V")) {}
+                if (ImGui::MenuItem("Cut", "CTRL+X"))
+                {
+                }
+                if (ImGui::MenuItem("Copy", "CTRL+C"))
+                {
+                }
+                if (ImGui::MenuItem("Paste", "CTRL+V"))
+                {
+                }
                 ImGui::EndMenu();
             }
             ImGui::EndMainMenuBar();
@@ -141,16 +152,17 @@ int main()
             static float f = 0.0f;
             static int counter = 0;
 
-            ImGui::Begin("Hello, world!");                          // Create a window called "Hello, world!" and append into it.
+            ImGui::Begin("Hello, world!"); // Create a window called "Hello, world!" and append into it.
 
-            ImGui::Text("This is some useful text.");               // Display some text (you can use a format strings too)
-            ImGui::Checkbox("Demo Window", &show_demo_window);      // Edit bools storing our window open/close state
+            ImGui::Text("This is some useful text."); // Display some text (you can use a format strings too)
+            ImGui::Checkbox("Demo Window", &show_demo_window); // Edit bools storing our window open/close state
             ImGui::Checkbox("Another Window", &show_another_window);
 
-            ImGui::SliderFloat("float", &f, 0.0f, 1.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
-            ImGui::ColorEdit3("clear color", (float *)&clear_color); // Edit 3 floats representing a color
+            ImGui::SliderFloat("float", &f, 0.0f, 1.0f); // Edit 1 float using a slider from 0.0f to 1.0f
+            ImGui::ColorEdit3("clear color", (float*)&clear_color); // Edit 3 floats representing a color
 
-            if (ImGui::Button("Button"))                            // Buttons return true when clicked (most widgets return true when edited/activated)
+            if (ImGui::Button("Button"))
+                // Buttons return true when clicked (most widgets return true when edited/activated)
                 counter++;
             ImGui::SameLine();
             ImGui::Text("counter = %d", counter);
@@ -162,7 +174,8 @@ int main()
         // 3. Show another simple window.
         if (show_another_window)
         {
-            ImGui::Begin("Another Window", &show_another_window);   // Pass a pointer to our bool variable (the window will have a closing button that will clear the bool when clicked)
+            ImGui::Begin("Another Window", &show_another_window);
+            // Pass a pointer to our bool variable (the window will have a closing button that will clear the bool when clicked)
             ImGui::Text("Hello from another window!");
             if (ImGui::Button("Close Me"))
                 show_another_window = false;
@@ -174,7 +187,8 @@ int main()
         int display_w, display_h;
         glfwGetFramebufferSize(window, &display_w, &display_h);
         glViewport(0, 0, display_w, display_h);
-        glClearColor(clear_color.x * clear_color.w, clear_color.y * clear_color.w, clear_color.z * clear_color.w, clear_color.w);
+        glClearColor(clear_color.x * clear_color.w, clear_color.y * clear_color.w, clear_color.z * clear_color.w,
+                     clear_color.w);
         glClear(GL_COLOR_BUFFER_BIT);
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
@@ -183,7 +197,7 @@ int main()
         //  For this specific demo app we could also call glfwMakeContextCurrent(window) directly)
         if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
         {
-            GLFWwindow *backup_current_context = glfwGetCurrentContext();
+            GLFWwindow* backup_current_context = glfwGetCurrentContext();
             ImGui::UpdatePlatformWindows();
             ImGui::RenderPlatformWindowsDefault();
             glfwMakeContextCurrent(backup_current_context);
