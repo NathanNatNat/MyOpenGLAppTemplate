@@ -6,20 +6,20 @@
 // GLFW (include after glad)
 #include <GLFW/glfw3.h>
 
-static void glfw_error_callback(int error, const char* description)
+static void glfw_error_callback(const int error, const char* description)
 {
     fprintf(stderr, "GLFW Error %d: %s\n", error, description);
 }
 
 // Is called whenever a key is pressed/released via GLFW
-void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode)
+void key_callback(GLFWwindow* window, const int key, int scancode, const int action, int mode)
 {
     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
         glfwSetWindowShouldClose(window, GL_TRUE);
 }
 
 // Window dimensions
-const GLuint WIDTH = 1920, HEIGHT = 1080;
+constexpr GLuint WIDTH = 1920, HEIGHT = 1080;
 
 int main()
 {
@@ -30,17 +30,19 @@ int main()
         return 1;
 
     // Set all the required options for GLFW
-    const char* glsl_version = "#version 460";
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
+    const auto glsl_version = "#version 460";
+    constexpr int OPENGL_MAJOR_VERSION = 4;
+    constexpr int OPENGL_MINOR_VERSION = 6;
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, OPENGL_MAJOR_VERSION);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, OPENGL_MINOR_VERSION);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 
     // Create a GLFWwindow object that we can use for GLFW's functions
-    GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "OpenGLAppTemplate", NULL, NULL);
+    GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "OpenGLAppTemplate", nullptr, nullptr);
     glfwMakeContextCurrent(window);
     glfwSwapInterval(1); // Enable vsync
-    if (window == NULL)
+    if (window == nullptr)
     {
         std::cout << "Failed to create GLFW window" << std::endl;
         glfwTerminate();
@@ -97,7 +99,7 @@ int main()
     // Our state
     bool show_demo_window = true;
     bool show_another_window = false;
-    ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
+    auto clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 
     // Game loop
     while (!glfwWindowShouldClose(window))
@@ -159,7 +161,7 @@ int main()
             ImGui::Checkbox("Another Window", &show_another_window);
 
             ImGui::SliderFloat("float", &f, 0.0f, 1.0f); // Edit 1 float using a slider from 0.0f to 1.0f
-            ImGui::ColorEdit3("clear color", (float*)&clear_color); // Edit 3 floats representing a color
+            ImGui::ColorEdit3("clear color", reinterpret_cast<float*>(&clear_color)); // Edit 3 floats representing a color
 
             if (ImGui::Button("Button"))
                 // Buttons return true when clicked (most widgets return true when edited/activated)
