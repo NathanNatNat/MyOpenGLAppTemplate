@@ -548,4 +548,7 @@ fabric.properties
 
 # Built Visual Studio Code Extensions
 *.vsix
-.PVS-Studio
+
+# Other
+/.PVS-Studio/
+/build/
