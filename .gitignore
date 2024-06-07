@@ -583,3 +583,4 @@ fabric.properties
 # Other
 /.PVS-Studio/
 /build/
+/.idea/
