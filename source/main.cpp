@@ -1,10 +1,28 @@
+#include <fstream>
 #include <iostream>
+#include <sstream>
 #include <imgui.h>
 #include <imgui_impl_glfw.h>
 #include <imgui_impl_opengl3.h>
 #include <glad/gl.h>
 // GLFW (include after glad)
 #include <GLFW/glfw3.h>
+
+std::string ReadFile(const std::string& filePath)
+{
+    std::ifstream file(filePath);
+    std::stringstream buffer;
+    if (file.is_open())
+    {
+        buffer << file.rdbuf();
+        file.close();
+    }
+    else
+    {
+        buffer << "Unable to open file: " << filePath;
+    }
+    return buffer.str();
+}
 
 static void glfw_error_callback(const int error, const char* description)
 {
@@ -116,6 +134,9 @@ int main()
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
 
+        std::string fileContents = ReadFile("data/ExampleCopyFile.txt");
+        ImGui::Text(fileContents.c_str());
+
         if (ImGui::BeginMainMenuBar())
         {
             if (ImGui::BeginMenu("File"))
@@ -161,7 +182,8 @@ int main()
             ImGui::Checkbox("Another Window", &show_another_window);
 
             ImGui::SliderFloat("float", &f, 0.0f, 1.0f); // Edit 1 float using a slider from 0.0f to 1.0f
-            ImGui::ColorEdit3("clear color", reinterpret_cast<float*>(&clear_color)); // Edit 3 floats representing a color
+            ImGui::ColorEdit3("clear color", reinterpret_cast<float*>(&clear_color));
+            // Edit 3 floats representing a color
 
             if (ImGui::Button("Button"))
                 // Buttons return true when clicked (most widgets return true when edited/activated)

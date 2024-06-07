@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.15)
+cmake_minimum_required(VERSION 3.28)
 project(OpenGLAppTemplate)
 
 set(CMAKE_CXX_STANDARD 17)
@@ -33,4 +33,13 @@ file(GLOB IMGUI_HEADERS
 add_library(imgui STATIC ${IMGUI_SOURCES} ${IMGUI_HEADERS})
 target_include_directories(imgui PUBLIC ${IMGUI_DIR} ${IMGUI_BACKEND_DIR})
 
-add_subdirectory(source)
+add_executable(OpenGLAppTemplate source/main.cpp)
+
+target_link_libraries(OpenGLAppTemplate glfw glad imgui)
+
+# Ensure the data directory is copied to the build directory
+add_custom_command(TARGET OpenGLAppTemplate POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+        ${CMAKE_SOURCE_DIR}/data
+        $<TARGET_FILE_DIR:OpenGLAppTemplate>/data
+)
