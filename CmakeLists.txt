@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.28)
-project(OpenGLAppTemplate)
+project(OpenGLAppTemplate LANGUAGES C CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -21,25 +21,25 @@ include_directories(external/glfw/include)
 set(IMGUI_DIR ${CMAKE_CURRENT_SOURCE_DIR}/external/imgui)
 set(IMGUI_BACKEND_DIR ${IMGUI_DIR}/backends)
 file(GLOB IMGUI_SOURCES
-    ${IMGUI_DIR}/*.cpp
-    ${IMGUI_BACKEND_DIR}/imgui_impl_glfw.cpp
-    ${IMGUI_BACKEND_DIR}/imgui_impl_opengl3.cpp
+        ${IMGUI_DIR}/*.cpp
+        ${IMGUI_BACKEND_DIR}/imgui_impl_glfw.cpp
+        ${IMGUI_BACKEND_DIR}/imgui_impl_opengl3.cpp
 )
 file(GLOB IMGUI_HEADERS
-    ${IMGUI_DIR}/*.h
-    ${IMGUI_BACKEND_DIR}/imgui_impl_glfw.h
-    ${IMGUI_BACKEND_DIR}/imgui_impl_opengl3.h
+        ${IMGUI_DIR}/*.h
+        ${IMGUI_BACKEND_DIR}/imgui_impl_glfw.h
+        ${IMGUI_BACKEND_DIR}/imgui_impl_opengl3.h
 )
 add_library(imgui STATIC ${IMGUI_SOURCES} ${IMGUI_HEADERS})
 target_include_directories(imgui PUBLIC ${IMGUI_DIR} ${IMGUI_BACKEND_DIR})
 
-add_executable(OpenGLAppTemplate source/main.cpp)
+add_executable(OpenGLApp source/main.cpp)
 
-target_link_libraries(OpenGLAppTemplate glfw glad imgui)
+target_link_libraries(OpenGLApp glfw glad imgui)
 
 # Ensure the data directory is copied to the build directory
-add_custom_command(TARGET OpenGLAppTemplate POST_BUILD
+add_custom_command(TARGET OpenGLApp POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_directory
         ${CMAKE_SOURCE_DIR}/data
-        $<TARGET_FILE_DIR:OpenGLAppTemplate>/data
+        $<TARGET_FILE_DIR:OpenGLApp>/data
 )
