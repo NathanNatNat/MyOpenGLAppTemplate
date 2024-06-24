@@ -33,7 +33,9 @@ file(GLOB IMGUI_HEADERS
 add_library(imgui STATIC ${IMGUI_SOURCES} ${IMGUI_HEADERS})
 target_include_directories(imgui PUBLIC ${IMGUI_DIR} ${IMGUI_BACKEND_DIR})
 
-add_executable(OpenGLApp source/main.cpp)
+add_executable(OpenGLApp source/main.cpp
+        source/app.cpp
+        source/app.hpp)
 
 target_link_libraries(OpenGLApp glfw glad imgui)
 
