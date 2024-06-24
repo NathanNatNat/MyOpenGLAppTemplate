@@ -9,3 +9,14 @@
 #include <glad/gl.h>
 // GLFW (include after glad)
 #include <GLFW/glfw3.h>
+
+namespace MyApp
+{
+    class Application
+    {
+    public:
+        Application() = default;
+
+        static int run();
+    };
+} // namespace MyApp
